@@ -5,3 +5,5 @@ Trying R Shiny, a web application framework for R, to turn analyses into interac
 Demo: http://nicolasguillaume.shinyapps.io/power_app
 
 Data source: ENEDIS (https://data.erdf.fr/explore/?sort=modified)
+
+![img](https://github.com/nicolasfguillaume/R-Shiny-Power-App/blob/master/dashboard.JPG)
