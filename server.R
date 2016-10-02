@@ -40,13 +40,35 @@ shinyServer(function(input, output) {
   
   output$plot1 <- reactivePlot(function() {
     
-                  p <- ggplot(aes(x= Date, y = Puissance.moyenne.journaliere), 
+                  p <- ggplot(aes(x= Date, y = Puissance.moyenne.journaliere / 10^9), 
                               data = dataset1() ) +
-                    geom_line(color = 'orange') + geom_smooth()
+                    geom_line(color = 'orange') + geom_smooth() +
+                    labs(x = "", y  = "GW")
                   
                   print(p)
                   
                 })
+  
+
+  dataset3 <- reactive( { 
+    
+                          subset_bilan_elec_df <- subset(bilan_elec_df , Categorie.client %in% input$cat_client) 
+                          
+                          aggdata <- aggregate( x = subset_bilan_elec_df$Puissance.moyenne.journaliere / 10^9, 
+                                                by = list(mois = subset_bilan_elec_df$mois), 
+                                                FUN = mean)
+    
+             })
+  
+  output$plot3 <- reactivePlot(function() {  
+  
+                  p <- ggplot(data=dataset3(), aes(x=mois, y=x)) +
+                    geom_bar(fill='indianred', stat="identity") + scale_x_discrete(limits=c("Jan", "Feb","Mar","Avr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) +
+                    labs(x = "", y  = "GW")
+                  
+                  print(p)
+                  
+              })
   
   
   dataset2 <- reactive( subset(prod_elec_df , Type.de.production %in% input$cat_source) )
@@ -65,9 +87,9 @@ shinyServer(function(input, output) {
   
   output$plot2 <- reactivePlot(function() {
     
-                p <- ggplot(data=dataset2(), aes(x=Region, y=Puissance.cumulee, fill=Type.de.production)) +
+                p <- ggplot(data=dataset2(), aes(x=Region, y=Puissance.cumulee/10^3, fill=Type.de.production)) +
                   geom_bar(stat="identity", position=position_dodge()) +
-                  labs(title = "Puissance cumulee", x="Region", y  = "MW") +
+                  labs(x="", y  = "GW") +
                   theme(axis.text.x=element_text(angle = 45, hjust = 1))
                 
                 print(p)

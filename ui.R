@@ -4,14 +4,14 @@ library(leaflet)
 #install.packages("shinydashboard")
 
 
-header <- dashboardHeader(title = "Dashboard")
+header <- dashboardHeader(title = "Mon Dashboard")
 
 sidebar <- dashboardSidebar(
                   sidebarMenu(
                     menuItem("Consommation electrique", tabName = "consommation", icon = icon("dashboard")),
                     menuItem("Production electrique", tabName = "production", icon = icon("th")),
-                    menuItem("Source code", icon = icon("file-code-o"), 
-                             href = "http://github.com/rstudio/shinydashboard/"),
+                    menuItem("Code source", icon = icon("file-code-o"), 
+                             href = "https://github.com/nicolasfguillaume/R-Shiny-Power-App/"),
                     menuItem("Nicolas Guillaume", icon = icon("file-code-o"), 
                              href = "http://www.nicolasguillaume.com/")
                   )
@@ -24,9 +24,18 @@ body <- dashboardBody(
                                 
                                 h2("Consommation electrique par categorie de clients - France"),
                                 
-                                plotOutput("plot1"),
+                                fluidRow(
                                 
-                                hr(),
+                                        box(
+                                          title = "Puissance moyenne journaliere consommee",
+                                          plotOutput("plot1")
+                                          ),
+                                        
+                                        box(
+                                          title = "Moyenne mensuelle de la puissance consommee (de 2012 a 2016)",
+                                          plotOutput("plot3")
+                                        )
+                                ),
                                 
                                 fluidRow(
 
@@ -43,14 +52,14 @@ body <- dashboardBody(
 
                                 ),
                                 
-                                h4("Source des donnees :  https://erdf.opendatasoft.com/explore/dataset/bilan-electrique-transpose/")
+                                h4("Source des donnees : https://erdf.opendatasoft.com/explore/dataset/bilan-electrique-transpose")
                                 
                         ),
                         
                         # Second tab content
                         tabItem(tabName = "production",
                                 
-                                h2("Production electrique par source - France"),
+                                h2("Production electrique par source de production - France"),
                                 
                                 fluidRow(
                                 
@@ -58,13 +67,11 @@ body <- dashboardBody(
                                         
                                         ),
                                 
-                                hr(),
-                                
                                 fluidRow(
 
                                           box(
                                             title = "Parametres",
-                                            checkboxGroupInput("cat_source", "Unite de production :",
+                                            checkboxGroupInput("cat_source", "Source de production :",
                                                                c("Photovoltaique" = "Photovoltaique",
                                                                  "Eolien" = "Eolien",
                                                                  "Hydraulique" = "Hydraulique",
@@ -74,11 +81,14 @@ body <- dashboardBody(
                                                                selected=c("Photovoltaique","Eolien"))
                                           ),
                                           
-                                          box(plotOutput("plot2")),
-                                          
-                                h4("Source des donnees : https://erdf.opendatasoft.com/explore/dataset/parc-raccorde-par-region-vf/")
-                                  
-                                )
+                                          box(
+                                            title = "Puissance installee par region",
+                                            plotOutput("plot2")
+                                            )
+
+                                ),
+                                
+                                h4("Source des donnees : https://erdf.opendatasoft.com/explore/dataset/parc-raccorde-par-region-vf")
                         )
                       )
 )
