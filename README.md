@@ -1,2 +1,7 @@
-# R-Shiny-Power-App
-Trying the R Shiny web framework
+# Exploratory Data Analysis with R (Shiny package)
+
+Trying R Shiny, a web application framework for R, to turn analyses into interactive web applications.
+
+Demo: http://nicolasguillaume.shinyapps.io/power_app
+
+Data source: ENEDIS (https://data.erdf.fr/explore/?sort=modified)
